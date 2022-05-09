@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple_Calculator</title>
+    <link rel="stylesheet" href="style.css"  />
+</head>
+<body>
+
+    <div id="calculator-container">
+
+        <div id="display-box">
+            <span id="display">0</span>
+        </div>
+
+        <div id="controls">
+            <div id="operators">
+                <button class="control-button" onclick="controlsFuction2('fraction')" >
+                    1/x
+                </button>
+                <button class="control-button" onclick="controlsFuction2('sqre')" >
+                    x<sup>2</sup>
+                </button>
+                <button class="control-button" onclick="controlsFuction2('sqrt')" >
+                    &#x221A;x
+                </button>
+                <button class="control-button" onclick="controlsFuction('/')" >
+                    /
+                </button>
+            </div>
+
+            <div class="digits">
+                <button class="digit-button" onclick="digitFuction('7')" >
+                    7
+                </button>
+                <button class="digit-button" onclick="digitFuction('8')" >
+                    8
+                </button>
+                <button class="digit-button" onclick="digitFuction('9')" >
+                    9
+                </button>
+                <button class="control-button" onclick="controlsFuction('*')" >
+                    *
+                </button>
+            </div>
+
+            <div class="digits">
+                <button class="digit-button" onclick="digitFuction('4')" >
+                    4
+                </button>
+                <button class="digit-button" onclick="digitFuction('5')" >
+                    5
+                </button>
+                <button class="digit-button" onclick="digitFuction('6')" >
+                    6
+                </button>
+                <button class="control-button" onclick="controlsFuction('-')" >
+                    -
+                </button>
+            </div>
+
+            <div class="digits">
+                <button class="digit-button" onclick="digitFuction('1')" >
+                    1
+                </button>
+                <button class="digit-button" onclick="digitFuction('2')" >
+                    2
+                </button>
+                <button class="digit-button" onclick="digitFuction('3')" >
+                    3
+                </button>
+                <button class="control-button" onclick="controlsFuction('+')" >
+                    +
+                </button>
+            </div>
+
+            <div id="operators-down" class="digits">
+                <button class="digit-button" onclick="digitFuction2('neg')" >
+                    +/-
+                </button>
+                <button class="digit-button" onclick="digitFuction('0')" >
+                    0
+                </button>
+                <button class="digit-button" onclick="digitFuction2('dec')" >
+                    .
+                </button>
+                <button class="control-button" onclick="evaluateFunction()" >
+                    =
+                </button>
+            </div>
+
+
+        </div>
+
+    </div>
+    
+    <!-- <script src="script.js"></script> -->
+
+
+    <script>
+
+        let operand1 = '';
+        let operand2 = '';
+        let operator = '';
+        let operatorType = '';
+
+
+        function currentDisplay (type) {
+            if(type) {
+            document.getElementById("display").innerText = type  + operand1;
+            return;
+            }
+            document.getElementById("display").innerText = operand1 + operator  + operand2;
+        }
+
+
+        function digitFuction (num) {
+            console.log("typed", num);
+
+            if(operand1 === '' || operator === '' ){
+                operand1 = operand1 + num; 
+
+            console.log("operand1", operand1);
+
+            currentDisplay();
+                return;
+            }
+
+            operand2 = operand2 + num;
+
+            console.log("operand2", operand2);
+            currentDisplay();
+
+        }
+
+
+        function controlsFuction (operatorInput) {
+            operator = operatorInput;
+            currentDisplay();
+            operatorType = '';
+        }
+
+        function controlsFuction2 (operatorInput) {
+            if(operatorInput === 'fraction')
+                {
+                    currentDisplay("1/");
+                    operator = operatorInput;
+                    operatorType = 'unary';
+                    return;
+                }
+
+                if(operatorInput === 'sqre')
+                {
+                    currentDisplay("^2");
+                    operator = operatorInput;
+                    operatorType = 'unary';
+                    return;
+                }
+
+                if(operatorInput === 'sqrt')
+                {
+                   currentDisplay("sqrt");
+                   operator = operatorInput;
+                    operatorType = 'unary';
+                   return;
+                }
+        }
+
+
+        function evaluateFunction () {
+
+            if(operatorType === 'unary' &&  operand1 !== '' && operator != '' ){
+                let parsedOperand1 = parseInt(operand1);
+                let finalAnswer;
+
+                if(operator === 'fraction')
+                {
+                    finalAnswer = 1/parsedOperand1;
+                }
+
+                if(operator === 'sqre')
+                {
+                    finalAnswer = parsedOperand1 ** 2;
+                }
+
+                if(operator === 'sqrt')
+                {
+                    finalAnswer = Math.sqrt(parsedOperand1);
+                }
+
+                document.getElementById("display").innerText = finalAnswer;
+
+                operand1 = '';
+                operand2 = '';
+                operator = '';
+
+                console.log("answer", finalAnswer);
+
+                return;
+            }
+
+            if(operand1 !== '' && operand2 !== '' && operator !== ''){
+                let parsedOperand1 = parseInt(operand1);
+                let parsedOperand2 = parseInt(operand2);
+                let finalAnswer = eval(parsedOperand1 + operator + parsedOperand2);
+
+                document.getElementById("display").innerText = finalAnswer;
+
+                operand1 = '';
+                operand2 = '';
+                operator = '';
+
+                console.log("answer", finalAnswer);
+
+
+            }
+        }
+
+
+
+
+    </script>
+
+
+
+</body>
+</html>
